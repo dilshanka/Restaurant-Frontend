@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -26,8 +26,14 @@ jobs:
     - name: Install dependencies
       run: npm install --legacy-peer-deps
 
+    - name: Add Babel Plugin
+      run: npm install --save-dev @babel/plugin-proposal-private-property-in-object
+
+    - name: Lint and fix
+      run: npx eslint --fix .
+
     - name: Build project
-      run: npm run build --if-present
+      run: CI=false npm run build
 
     - name: Run tests
       run: npm test
